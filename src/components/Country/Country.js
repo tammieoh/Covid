@@ -13,7 +13,8 @@ class Country extends Component {
         this.state = {
             countries: [],
             countryStart: "",
-            countryEnd: ""
+            countryEnd: "",
+                // countryName: this.props.match.params
         }
     }
 
@@ -34,7 +35,12 @@ class Country extends Component {
         await fetch(`https://api.covid19api.com/total/country/${countryName}?from=2020-10-01T00:00:00Z&to=2020-10-${date}T00:00:00Z`)
 //         .then(response => response.json())
         .then(response => {
+                // console.log(response.status);
                 if (!response.ok){
+                        // this.setState({
+                        //         countryStar
+                        // })
+                        
                         throw new Error("Network response was not ok.");
                 }
                 return response.json();
@@ -71,11 +77,22 @@ class Country extends Component {
     render(){
         // const {country} = this.props.match.params;
         // check for response status
-
-        const confirmed = this.state.countryEnd.Confirmed - this.state.countryStart.Confirmed;
-        const recovered = this.state.countryEnd.Recovered - this.state.countryStart.Recovered;
-        const deaths = this.state.countryEnd.Deaths - this.state.countryStart.Deaths;
-
+        let confirmed = 0;
+        let recovered = 0;
+        let deaths = 0;
+        if(!(this.state.countryStart === "") && !(this.state.countryEnd === "")) {
+                confirmed = this.state.countryEnd.Confirmed - this.state.countryStart.Confirmed;
+                recovered = this.state.countryEnd.Recovered - this.state.countryStart.Recovered;
+                deaths = this.state.countryEnd.Deaths - this.state.countryStart.Deaths;
+        }
+        // else {
+               
+        // }
+       
+        // if(typeof confirmed === "") {
+        //         console.log("Hello");
+        //         confirmed = 0;
+        // }
         return(
 
             <div>
