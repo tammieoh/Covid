@@ -19,9 +19,7 @@ import Country from "./components/Country/Country";
 // }
 
 class App extends Component {
-  constructor(){
-    super();
-  }
+
   render() {
     return (
       <Router>     

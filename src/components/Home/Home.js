@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import './Home.css';
 import {withRouter} from "react-router";
+import "../../assets/fonts/CabinSketch-Regular.ttf"
+import world from "../../assets/images/world.png"
 
 class Home extends Component {
     constructor(){
@@ -11,7 +13,8 @@ class Home extends Component {
           //  array for all the countries in the drop down
           countries: [],
           // selectedCountry is used for the routing of the results page
-          selectedSlug: ""
+          selectedSlug: "",
+          selectedDisplay: "",
         }
     }
     componentDidMount() {
@@ -20,7 +23,7 @@ class Home extends Component {
         fetch("https://api.covid19api.com/countries")
         .then(response => response.json())
         .then(result => {
-          // console.log
+          
           let countriesApi = result.map((country => { 
             // display is used for how each drop down menu should look
             // line 33 shows the default value of no countries selected
@@ -41,16 +44,16 @@ class Home extends Component {
       //  this method is used so that when the user clicks on a drop down option
       //  the state will change selectedCountry to whatever value is selected
     _getCountry(event) {
-        console.log(this.state.selectedSlug);
-        console.log(event.target.value);
-        // console.log(event.target.slug);
-        // console.log(event.target);
+        // console.log("this is the event.target.value");
+        // console.log(event.target.value);
+        
+        const displayName = this.state.countries.find(country => country.slug === event.target.value);
         
         this.setState({
           // selectedCountry: event.target.value,
           selectedSlug: event.target.value, 
+          selectedDisplay: displayName.value,
         });
-        // console.log(this.state)
       }
 
     _clicked(event) {
@@ -60,7 +63,12 @@ class Home extends Component {
     render() {
         return(
             <div className="Home">
+                <div className="logo">
+                  <img src= {world} alt= "world logo" />
+                </div>
+                
                 <h1>Covid Data</h1>
+                <p>Find the statistics of any country in the world!</p>
                 <form onSubmit={this._clicked}>
                     <label htmlFor="fname">Countries: </label>
                         <select
@@ -79,6 +87,7 @@ class Home extends Component {
                             {this.state.countries.map((country) => <option key={country.value} value={country.slug}>{country.display}</option>)}
                             {/* <option value="all">all</option> */}
                         </select>
+                        
                     <input type="submit" value="Go" ></input>
                 {/* <button onClick={this._clicked()}>Go</button> */}
                 </form>
